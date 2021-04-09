@@ -23,5 +23,4 @@ const notes = [
         important: true
     }
 ]
-
 ReactDOM.render(<App notes={notes} />, document.getElementById("root"))

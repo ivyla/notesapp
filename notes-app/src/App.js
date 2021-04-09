@@ -1,4 +1,5 @@
 import "./App.css"
+import React, {useState, useEffect} from "react"
 
 const Note = ({note}) => {
     return (
@@ -12,8 +13,36 @@ const Note = ({note}) => {
 }
 
 function App({notes}) {
-    const allNotes = notes.map((item) => <Note note={item} />)
-    return <div className="App">{allNotes} hello world</div>
+    const [allNotes, setNotes] = useState(notes)
+    const [newNote, setNewNote] = useState("")
+    const displayNotes = allNotes.map((item) => (
+        <Note note={item} key={item.id} />
+    ))
+
+    const handleNoteChange = (event) => {
+        setNewNote(event.target.value)
+    }
+    const addNewNote = (event) => {
+        event.preventDefault()
+        const noteToBeAdded = {
+            id: allNotes.length + 1,
+            content: newNote,
+            important: false,
+            date: new Date().toString()
+        }
+        setNotes(allNotes.concat(noteToBeAdded))
+        // console.log("going to add ", noteToBeAdded)
+    }
+    return (
+        <div className="App">
+            {displayNotes}
+            <form onSubmit={addNewNote}>
+                {" "}
+                <input value={newNote} onChange={handleNoteChange} />{" "}
+                <button type="submit"> add note </button>{" "}
+            </form>
+        </div>
+    )
 }
 
 export default App
